@@ -1,0 +1,274 @@
+<html>
+
+<head>
+<meta charset=utf-8 />
+<title>Leaflet Projection to EPSG:2180</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            }
+    </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.csss" />
+    <style>
+		.mycluster {
+            width: 50px;
+            height: 50px;
+            border-radius: 30%;
+			background-color: goldenrod;
+			text-align: center;
+            line-height: 40px;
+			font-size: 18px;
+            color: green,
+		}
+
+	</style>
+    
+</head>
+
+<body>
+    <div id='map'></div>
+    <pre id='info'></pre>
+    
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="http://kartena.github.io/Proj4Leaflet/lib/proj4-compressed.js"></script>
+    <script src="http://kartena.github.io/Proj4Leaflet/src/proj4leaflet.js"></script>
+    <script src="http://rowanwins.github.io/leaflet-easyPrint/dist/bundle.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster-src.js"></script>
+    
+    
+    <script>
+    
+//************************************************************************************************************************* 
+//**************************************************************Projekcja**************************************************                     
+        var crs = new L.Proj.CRS('EPSG:2180',
+  '+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs ',
+        {
+    resolutions: [
+      2116.6709, 
+      1058.33545,
+      529.167725, 
+      264.5838625,
+      132.29193125,
+      66.145965625,
+      26.45838625,
+      13.229193125, 
+      6.6145965625, 
+      2.6458386250000006, 
+      1.3229193125000003, 
+      0.5291677250000001, 
+      0.26458386250000004, 
+      0.13229193125000002
+    ],
+    origin:  [100000, 850000]
+
+  });
+var     map = new L.Map('map', {
+                crs: crs,
+                
+        
+    });
+
+          
+//************************************************************************************************************************* 
+//****************************************************Layers*************************************************************** 
+                  
+    var tileUrl1 = 'http://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/ORTO?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER==default&TILEMATRIXSET=EPSG:2180&TILEMATRIX=EPSG:2180:{z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png&rfh=1';
+    
+    var tileUrl2 = 'http://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/TOPO?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER==default&TILEMATRIXSET=EPSG:2180&TILEMATRIX=EPSG:2180:{z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png&rfh=1';
+    
+    var tileUrl3 = 'http://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/G2_GO_CACHE?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER==default&TILEMATRIXSET=EPSG:2180&TILEMATRIX=EPSG:2180:{z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png&rfh=1';
+    
+    var tileUrl4 = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}.png';
+    
+    tilelayer1 = new L.TileLayer(tileUrl1, {
+                maxZoom: 14,
+                minZoom: 0,
+                tileSize: 512,
+                attribution: 'Map data © <a href="http://geoportal.gov.pl">Geoportal</a> contributors'
+                });
+    tilelayer2 = new L.TileLayer(tileUrl2, {
+                maxZoom: 14,
+                minZoom: 0,
+                tileSize: 512,
+                 attribution: 'Map data © <a href="http://geoportal.gov.pl">Geoportal</a> contributors'
+                });
+    tilelayer3 = new L.TileLayer(tileUrl3, {
+                maxZoom: 14,
+                minZoom: 0,
+                tileSize: 512,
+                 attribution: 'Map data © <a href="http://geoportal.gov.pl">Geoportal</a> contributors'
+                });
+    tilelayer4 = new L.TileLayer(tileUrl4, {
+                maxZoom: 12,
+                minZoom: 0,
+                tileSize: 256,
+                 attribution: 'Map data © <a href="http://geoportal.gov.pl">Geoportal</a> contributors'
+                });
+   
+                    
+    map.addLayer(tilelayer1);
+    map.setView([52.24, 20.92], 4);
+        
+var baseMaps = {
+    "Ortofotomapa": tilelayer1,
+    "Topo": tilelayer2,
+    "Działki katastralne": tilelayer3,
+    "OSM": tilelayer4
+};
+
+                    
+//************************************************************************************************************************* 
+//*******************************************************Markers*********************************************************** 
+
+var marker1 = L.marker([52.24, 20.92]).bindPopup('1').addTo(map);
+                    
+var marker2 = L.marker([52.26, 20.97]).bindPopup('2').addTo(map);
+    marker3    = L.marker([52.27, 20.82]).bindPopup('3').addTo(map);
+    marker4    = L.marker([52.29, 20.72]).bindPopup('4').addTo(map);
+    marker5    = L.marker([52.31, 20.99]).bindPopup('5').addTo(map);       
+                    
+
+                    
+                    
+
+var circle3 = L.circle([52.259, 21.020], {
+    color: 'green',
+    fillColor: '#70fb38',
+    fillOpacity: 0.5,
+    radius: 1200
+}).bindPopup('Strefa bezpieczna').addTo(map);   
+                    
+var circle2 = L.circle([52.259, 21.020], {
+    color: 'orange',
+    fillColor: '#FBAE38',
+    fillOpacity: 0.5,
+    radius: 780
+}).bindPopup('Strefa skażona').addTo(map);
+
+var circle1 = L.circle([52.259, 21.020], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+}).bindPopup('Strefa bardzo skażona').addTo(map);
+       
+
+var cities = L.layerGroup([marker2, marker3, marker4, marker5]);
+var bomb = L.layerGroup([circle1, circle2, circle3]);
+
+var overlayMaps = {
+    "Cities": cities,
+    "Others": bomb
+    };
+                    
+        
+ //************************************************************************************************************************* 
+//*******************************************************ClasterMarkers*********************************************************** 
+
+		//Custom radius and icon create function
+var markers = L.markerClusterGroup({
+    maxClusterRadius: 120,
+	iconCreateFunction: function (cluster) {
+				var markers = cluster.getAllChildMarkers();
+				var n = 0;
+				for (var i = 0; i < markers.length; i++) {
+					n += markers[i].number;
+				}
+				return L.divIcon({ html: n, className: 'mycluster', iconSize: L.point(40, 40) });
+			},
+			//Disable all of the defaults:
+			spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true
+		});
+
+        
+function populate() {
+			for (var i = 0; i < 100; i++) {
+				var m = L.marker(getRandomLatLng(map), { title: i });
+				m.number = 1;
+				markers.addLayer(m);
+			}
+			return false;
+		}
+function populateRandomVector() {
+			for (var i = 0, latlngs = [], len = 20; i < len; i++) {
+				latlngs.push(getRandomLatLng(map));
+			}
+			var path = L.polyline(latlngs);
+			map.addLayer(path);
+		}
+function getRandomLatLng(map) {
+			var bounds = map.getBounds(),
+				southWest = bounds.getSouthWest(),
+				northEast = bounds.getNorthEast(),
+				lngSpan = northEast.lng - southWest.lng,
+				latSpan = northEast.lat - southWest.lat;
+
+			return L.latLng(
+					southWest.lat + latSpan * Math.random(),
+					southWest.lng + lngSpan * Math.random());
+		}
+
+		populate();
+		map.addLayer(markers);
+
+var shownLayer, polygon;
+
+function removePolygon() {
+			if (shownLayer) {
+				shownLayer.setOpacity(1);
+				shownLayer = null;
+			}
+			if (polygon) {
+				map.removeLayer(polygon);
+				polygon = null;
+			}
+		};
+
+		markers.on('clustermouseover', function (a) {
+			removePolygon();
+
+			a.layer.setOpacity(0.2);
+			shownLayer = a.layer;
+			polygon = L.polygon(a.layer.getConvexHull());
+			map.addLayer(polygon);
+		});
+		markers.on('clustermouseout', removePolygon);
+		map.on('zoomend', removePolygon);        
+        
+//************************************************************************************************************************* 
+        
+                    
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+L.control.scale().addTo(map);  
+//************************************************************************************************************************* 
+//**************************************************************Print******************************************************  
+
+
+L.easyPrint({
+	title: 'My awesome print button',
+	position: 'topleft',
+    sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+	exportOnly: true
+}).addTo(map);
+
+
+//************************************************************************************************************************* 
+        
+              
+    </script>
+   
+
+</body>
+
+</html>
+
