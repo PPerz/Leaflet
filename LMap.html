@@ -133,10 +133,16 @@ var baseMaps = {
 var marker1 = L.marker([52.24, 20.92]).bindPopup('1').addTo(map);
                     
 var marker2 = L.marker([52.26, 20.97]).bindPopup('2').addTo(map);
-    marker3    = L.marker([52.27, 20.82]).bindPopup('3').addTo(map);
-    marker4    = L.marker([52.29, 20.72]).bindPopup('4').addTo(map);
-    marker5    = L.marker([52.31, 20.99]).bindPopup('5').addTo(map);       
+    marker3 = L.marker([52.27, 20.82]).bindPopup('3').addTo(map);
+    marker4 = L.marker([52.29, 20.72]).bindPopup('4').addTo(map);
+    marker5 = L.marker([52.31, 20.99]).bindPopup('5').addTo(map);    
+        marker2.number = 1;
+        marker3.number = 1;
+        marker4.number = 1;
+        marker5.number = 1;
+        
                     
+        
 
                     
                     
@@ -164,6 +170,7 @@ var circle1 = L.circle([52.259, 21.020], {
        
 
 var cities = L.layerGroup([marker2, marker3, marker4, marker5]);
+        
 var bomb = L.layerGroup([circle1, circle2, circle3]);
 
 var overlayMaps = {
@@ -189,7 +196,7 @@ var markers = L.markerClusterGroup({
 			//Disable all of the defaults:
 			spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true
 		});
-
+markers.addLayer(cities);
         
 function populate() {
 			for (var i = 0; i < 100; i++) {
